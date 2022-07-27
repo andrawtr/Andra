@@ -94,7 +94,7 @@ public class buatevent extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                        tvtanggal.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        tvtanggal.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
 
                     }
                 }, mYear, mMonth, mDay);
