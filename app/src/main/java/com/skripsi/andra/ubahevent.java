@@ -51,6 +51,7 @@ public class ubahevent extends AppCompatActivity {
         tvuuide = findViewById(R.id.tvuuide);
         tvtglbaru = findViewById(R.id.tvtglbaru);
         tvjambaru = findViewById(R.id.tvjambaru);
+        tvnamau = findViewById(R.id.tvnamau);
         tvnamau.setText(nama);
         tvlokasiu.setText(lokasi);
         tvtamuu.setText(tamu);
@@ -116,6 +117,7 @@ public class ubahevent extends AppCompatActivity {
         mdatabase = FirebaseDatabase.getInstance().getReference();
         mdatabase.child("user").child(tvuuide.getText().toString()).child("userevent").child(tvnoevente.getText().toString()).child("status").setValue(statusbaru);
         mdatabase.child("Event").child(tvnoevente.getText().toString()).child("status").setValue(statusbaru);
+        ubahevent.this.finish();
     }
 
 

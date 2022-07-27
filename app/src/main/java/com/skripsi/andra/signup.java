@@ -66,9 +66,13 @@ public class signup extends AppCompatActivity {
         FirebaseUser sudahlogin = mAuth.getCurrentUser();
         if (sudahlogin!=null ){
             String email =  mAuth.getCurrentUser().getEmail();
-            email.equals("andrawitantra.aw@gmail.com");
-            pd.dismiss();
-            startActivity(new Intent(signup.this, Admin.class));
+            if (email.equals("andrawitantra.aw@gmail.com")){
+                signup.this.finish();
+                startActivity(new Intent(signup.this, Admin.class));
+            }else{
+                signup.this.finish();
+                startActivity(new Intent(signup.this, main.class));
+            }
         }else{
             pd.dismiss();
             Log.d("Lognya","Blm Login");
