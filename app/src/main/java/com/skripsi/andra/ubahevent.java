@@ -1,8 +1,10 @@
 package com.skripsi.andra;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,12 +17,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 
 public class ubahevent extends AppCompatActivity {
+    ProgressDialog pd;
     private int mYear, mMonth, mDay, mHour, mMinute;
     TextView tvnamau, tvlokasiu, tvtamuu, tvtglu, tvjamu, tvtlpu, tvstatusu, tvuuide, tvtglbaru, tvjambaru;
     String jam, menit,statusbaru,jenisnya,uuid;
@@ -145,6 +150,11 @@ public class ubahevent extends AppCompatActivity {
     }
 
     public void update(View v){
+        pd = new ProgressDialog(ubahevent.this);
+        pd.setMessage("Menyimpan Perubahan ...");
+        pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        pd.show();
+        mdatabase = FirebaseDatabase.getInstance().getReference();
         mdatabase = FirebaseDatabase.getInstance().getReference();
         uuid = tvuuide.getText().toString();
         mdatabase.child("Event").child(uuid).setValue(uuid);
@@ -161,9 +171,23 @@ public class ubahevent extends AppCompatActivity {
         mdatabase.child("user").child(uuid).child("userevent").child("tamu").setValue(ettamubaru.getText().toString());
         mdatabase.child("user").child(uuid).child("userevent").child("tanggal").setValue(tvtglbaru.getText().toString());
         mdatabase.child("user").child(uuid).child("userevent").child("jam").setValue(tvjambaru.getText().toString());
-        mdatabase.child("user").child(uuid).child("userevent").child("status").setValue(statusbaru);
-        ubahevent.this.finish();
-        startActivity(new Intent(ubahevent.this, Admin.class));
+        mdatabase.child("user").child(uuid).child("userevent").child("status").setValue(statusbaru)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        pd.dismiss();
+                        ubahevent.this.finish();
+                        startActivity(new Intent(ubahevent.this, Admin.class));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Write failed
+                        // ...
+                    }
+                });
+
     }
 
 }

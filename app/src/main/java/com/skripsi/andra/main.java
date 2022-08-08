@@ -69,7 +69,7 @@ public class main<ImageAdapter> extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 pd.dismiss();
                 usernya = dataSnapshot.getValue().toString();
-                tv.setText("Selamat Datang " + usernya + " Di Portal Next Com");
+                tv.setText(usernya);
             }
 
             @Override
@@ -95,7 +95,7 @@ public class main<ImageAdapter> extends AppCompatActivity {
                     textView24.setText("Event Anda Sedang Kami Kerjakan\nSilahkan Hubungi Admin Untuk Mengubah Event");
                 }else{
                     textView24.setText("Anda Belum Mempunyai Event\nKlik Tombol Di Atas Untuk Membuat Event Anda");
-                    cv.setVisibility(View.INVISIBLE);
+                    cv.setVisibility(View.GONE);
                     button2.setVisibility(View.VISIBLE);
                 }
 
