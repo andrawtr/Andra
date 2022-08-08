@@ -10,11 +10,10 @@
         android:id="@+id/tvnamau"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Nama Event"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="24dp"
+        android:text="Ubah Event"
+        app:layout_constraintStart_toStartOf="@+id/etnamabaru"
+        app:layout_constraintTop_toBottomOf="@+id/textView27" />
 
     <TextView
         android:id="@+id/tvhj"
@@ -22,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Lokasi"
+        android:text="Lokasi :"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etnamabaru" />
 
@@ -32,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Jumlah Tamu"
+        android:text="Jumlah Tamu :"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ettempatbaru" />
 
@@ -42,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Tanggal / jam"
+        android:text="Tanggal / jam :"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ettamubaru" />
 
@@ -52,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="No Telphone"
+        android:text="No Telphone :"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button3" />
 
@@ -63,7 +62,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Status"
+        android:text="Status Baru"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,13 +84,14 @@
         android:id="@+id/ettempatbaru"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/textView41"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/etnamabaru"
+        app:layout_constraintStart_toEndOf="@+id/textView41"
         app:layout_constraintTop_toTopOf="@+id/textView41" />
 
     <EditText
@@ -101,7 +101,7 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="number"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/textView42"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/ettempatbaru"
@@ -115,7 +115,7 @@
         android:layout_marginTop="8dp"
         android:onClick="dp"
         android:text="Ubah tanggal"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView43" />
 
@@ -126,7 +126,7 @@
         android:layout_marginEnd="8dp"
         android:onClick="tp"
         android:text="ubah jam"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button3" />
 
@@ -136,19 +136,17 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="@+id/tvhj"
-        app:layout_constraintStart_toStartOf="@+id/tvtamuu"
+        app:layout_constraintStart_toStartOf="@+id/etnamabaru"
         app:layout_constraintTop_toTopOf="@+id/tvhj"
         app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
+    <Spinner
         android:id="@+id/etstatusbaru"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvstatusu" />
@@ -158,16 +156,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/tvtanggalu"
+        app:layout_constraintStart_toStartOf="@+id/ettamubaru"
         app:layout_constraintTop_toTopOf="@+id/textView31" />
 
     <TextView
         android:id="@+id/tvtamuu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/tvt"
+        app:layout_constraintStart_toStartOf="@+id/ettempatbaru"
         app:layout_constraintTop_toTopOf="@+id/tvt" />
 
     <TextView
@@ -175,7 +172,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/tvtamuu"
+        app:layout_constraintStart_toStartOf="@+id/ettamubaru"
         app:layout_constraintTop_toTopOf="@+id/textView30" />
 
     <TextView
@@ -194,18 +191,15 @@
         app:layout_constraintStart_toEndOf="@+id/tvtanggalu"
         app:layout_constraintTop_toTopOf="@+id/tvtanggalu" />
 
-    <EditText
+    <Spinner
         android:id="@+id/etnamabaru"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/textView40"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView40"
+        app:layout_constraintStart_toStartOf="@+id/ettempatbaru"
         app:layout_constraintTop_toTopOf="@+id/textView40" />
 
     <TextView
@@ -213,19 +207,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Nama Event Baru"
-        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        android:text="Jenis Event Baru  :"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvnamau" />
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
     <TextView
         android:id="@+id/textView41"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Lokasi Event Baru"
-        android:visibility="gone"
+        android:text="Lokasi Event Baru :"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/tvhj"
         app:layout_constraintTop_toBottomOf="@+id/tvhj" />
 
@@ -234,8 +228,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Jumlah Tamu Baru"
-        android:visibility="gone"
+        android:text="Jumlah Tamu Baru :"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/tvt"
         app:layout_constraintTop_toBottomOf="@+id/tvt" />
 
@@ -244,8 +238,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Tanggal / jam baru"
-        android:visibility="gone"
+        android:text="Tanggal / jam baru :"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/textView30"
         app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
@@ -254,9 +248,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/textView43"
-        app:layout_constraintStart_toStartOf="@+id/ettamubaru"
+        app:layout_constraintStart_toStartOf="@+id/tvtanggalu"
         app:layout_constraintTop_toTopOf="@+id/textView43" />
 
     <TextView
@@ -264,7 +258,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" / "
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toEndOf="@+id/tvtglbaru"
         app:layout_constraintTop_toTopOf="@+id/tvtglbaru" />
 
@@ -273,7 +267,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toEndOf="@+id/textView45"
         app:layout_constraintTop_toTopOf="@+id/textView45" />
 
@@ -283,7 +277,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="No Telphone baru"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/textView31"
         app:layout_constraintTop_toBottomOf="@+id/textView31" />
 
@@ -294,22 +288,11 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="phone"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/textView47"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/ettamubaru"
         app:layout_constraintTop_toTopOf="@+id/textView47" />
-
-    <TextView
-        android:id="@+id/tvnoevente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="TextView"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/tvuuide"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tvuuide"
@@ -318,7 +301,28 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="TextView"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Jenis Event  :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvnamau" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="Ubah Event"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

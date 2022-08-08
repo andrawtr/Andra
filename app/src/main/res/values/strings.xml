@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Andra Skripsi</string>
+    <string-array name="Jenis_Event">
+        <item>Tunangan</item>
+        <item>Pernikahan</item>
+        <item>Gathering</item>
+        <item>Outbound</item>
+        <item>Launching Product</item>
+        <item>Kampanye</item>
+    </string-array>
+    <string-array name="status_Event">
+        <item>Penawaran Proses Detail Event</item>
+        <item>Penawaran Sedang Di Proses</item>
+        <item>Penawaran Dikirimkan</item>
+        <item>Menunggu Pembayaran DP</item>
+        <item>Event Siap, Menunggu Pelaksanaan</item>
+        <item>Event Sedang Berlangsung</item>
+        <item>Event Selesai</item>
+    </string-array>
 </resources>

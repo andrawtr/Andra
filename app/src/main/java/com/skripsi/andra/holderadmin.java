@@ -38,7 +38,8 @@ public holderadmin(Context mContext, Activity mActivity, ArrayList<Model> mConte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView tvnamaa,tvlokasia,tvtamua,tvtanggala,tvjama,tvstatusa,tvuuida,tvnopea,tvnoevent;
+
+        private TextView tvnamaa,tvlokasia,tvtamua,tvtanggala,tvjama,tvstatusa,tvuuida,tvnopea;
         private CardView cardView;
         public ViewHolder(View itemView, int viewType) {
             super(itemView);
@@ -52,7 +53,7 @@ public holderadmin(Context mContext, Activity mActivity, ArrayList<Model> mConte
             tvstatusa = (TextView) itemView.findViewById(R.id.tvstatusa);
             tvuuida = (TextView) itemView.findViewById(R.id.tvuuida);
             tvnopea = (TextView) itemView.findViewById(R.id.tvphonea);
-            tvnoevent = (TextView) itemView.findViewById(R.id.tvnoevent);
+
 
         }
 
@@ -67,10 +68,7 @@ public holderadmin(Context mContext, Activity mActivity, ArrayList<Model> mConte
             intent.putExtra("jam", tvjama.getText());
             intent.putExtra("status", tvstatusa .getText());
             intent.putExtra("nope", tvnopea.getText());
-            intent.putExtra("noevent", tvnoevent.getText());
             intent.putExtra("uuid", tvuuida.getText());
-
-
             ctx.startActivity(intent);
         }
     }
@@ -87,7 +85,6 @@ public holderadmin(Context mContext, Activity mActivity, ArrayList<Model> mConte
         holder.tvstatusa.setText(model.getStatus());
         holder.tvuuida.setText(model.getUuid());
         holder.tvnopea.setText(model.getNope());
-        holder.tvnoevent.setText(model.getNoevent());
     }
     @Override
     public int getItemCount() {

@@ -9,9 +9,13 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -33,9 +37,10 @@ public class buatevent extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private int mYear, mMonth, mDay, mHour, mMinute;
     TextView tvtanggal, tvjam, tvnope;
-    String jam, menit, uuid;
-    EditText jenis, lokasi, tamu;
+    String jam, menit, uuid, jenisnya;
+    EditText lokasi, tamu;
     Boolean bjenis, blokasi, btamu, btanggal, bjam;
+    Spinner jenis;
     int no;
 
     @Override
@@ -62,16 +67,6 @@ public class buatevent extends AppCompatActivity {
         bjam = false;
         FirebaseUser user = mAuth.getCurrentUser();
         uuid  = user.getUid();
-        mdatabase = FirebaseDatabase.getInstance().getReference().child("no");
-        mdatabase.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                no = Integer.parseInt(dataSnapshot.getValue().toString());
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
         mdatabase = FirebaseDatabase.getInstance().getReference().child("user").child(uuid).child("nope");
         mdatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -82,16 +77,30 @@ public class buatevent extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.Jenis_Event, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jenis.setAdapter(adapter);
+        jenis.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                jenisnya = jenis.getSelectedItem().toString();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     public void buatevent(View v) {
-        cekjenis();
         ceklokasi();
         cektamu();
         cektanggal();
         cekjam();
-        if(bjenis && blokasi && btamu && btanggal && bjam){
+        if(blokasi && btamu && btanggal && bjam){
             prosesevent();
         }
 
@@ -103,7 +112,7 @@ public class buatevent extends AppCompatActivity {
 
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
+                        tvtanggal.setVisibility(View.VISIBLE);
                         tvtanggal.setText(dayOfMonth + "-" + (monthOfYear + 1) + "/" + year);
 
                     }
@@ -127,19 +136,13 @@ public class buatevent extends AppCompatActivity {
                         } else {
                             menit = String.valueOf(minute);
                         }
+                        tvjam.setVisibility(View.VISIBLE);
                         tvjam.setText(jam + ":" + menit);
                     }
                 }, mHour, mMinute, true);
         timePickerDialog.show();
     }
 
-    public void cekjenis(){
-        if (jenis.getText().toString().length() < 1) {
-            jenis.setError("Jenis Event Harus Diisi");
-        } else {
-            bjenis = true;
-        }
-    }
     public void ceklokasi(){
         if (lokasi.getText().toString().length() < 1) {
             lokasi.setError("Lokasi Event Harus Diisi");
@@ -173,22 +176,21 @@ public class buatevent extends AppCompatActivity {
 
     public void prosesevent(){
         mdatabase = FirebaseDatabase.getInstance().getReference();
-        mdatabase.child("no").setValue(String.valueOf(no+1));
-        mdatabase.child("Event").child(String.valueOf(no+1)).child("uuid").setValue(uuid);
-        mdatabase.child("Event").child(String.valueOf(no+1)).child("nope").setValue(tvnope.getText().toString());
-        mdatabase.child("Event").child(String.valueOf(no+1)).child("noevent").setValue(String.valueOf(no+1));
-        mdatabase.child("Event").child(String.valueOf(no+1)).child("jenis").setValue(jenis.getText().toString());
-        mdatabase.child("Event").child(String.valueOf(no+1)).child("lokasi").setValue(lokasi.getText().toString());
-        mdatabase.child("Event").child(String.valueOf(no+1)).child("tamu").setValue(tamu.getText().toString());
-        mdatabase.child("Event").child(String.valueOf(no+1)).child("tanggal").setValue(tvtanggal.getText().toString());
-        mdatabase.child("Event").child(String.valueOf(no+1)).child("jam").setValue(tvjam.getText().toString());
-        mdatabase.child("Event").child(String.valueOf(no+1)).child("status").setValue("Event sedang diproses");
-        mdatabase.child("user").child(uuid).child("userevent").child(String.valueOf(no+1)).child("jenis").setValue(jenis.getText().toString());
-        mdatabase.child("user").child(uuid).child("userevent").child(String.valueOf(no+1)).child("lokasi").setValue(lokasi.getText().toString());
-        mdatabase.child("user").child(uuid).child("userevent").child(String.valueOf(no+1)).child("tamu").setValue(tamu.getText().toString());
-        mdatabase.child("user").child(uuid).child("userevent").child(String.valueOf(no+1)).child("tanggal").setValue(tvtanggal.getText().toString());
-        mdatabase.child("user").child(uuid).child("userevent").child(String.valueOf(no+1)).child("jam").setValue(tvjam.getText().toString());
-        mdatabase.child("user").child(uuid).child("userevent").child(String.valueOf(no+1)).child("status").setValue("Event sedang diproses");
+        mdatabase.child("Event").child(uuid).setValue(uuid);
+        mdatabase.child("Event").child(uuid).child("uuid").setValue(uuid);
+        mdatabase.child("Event").child(uuid).child("nope").setValue(tvnope.getText().toString());
+        mdatabase.child("Event").child(uuid).child("jenis").setValue(jenisnya);
+        mdatabase.child("Event").child(uuid).child("lokasi").setValue(lokasi.getText().toString());
+        mdatabase.child("Event").child(uuid).child("tamu").setValue(tamu.getText().toString());
+        mdatabase.child("Event").child(uuid).child("tanggal").setValue(tvtanggal.getText().toString());
+        mdatabase.child("Event").child(uuid).child("jam").setValue(tvjam.getText().toString());
+        mdatabase.child("Event").child(uuid).child("status").setValue("Event sedang diproses");
+        mdatabase.child("user").child(uuid).child("userevent").child("jenis").setValue(jenisnya);
+        mdatabase.child("user").child(uuid).child("userevent").child("lokasi").setValue(lokasi.getText().toString());
+        mdatabase.child("user").child(uuid).child("userevent").child("tamu").setValue(tamu.getText().toString());
+        mdatabase.child("user").child(uuid).child("userevent").child("tanggal").setValue(tvtanggal.getText().toString());
+        mdatabase.child("user").child(uuid).child("userevent").child("jam").setValue(tvjam.getText().toString());
+        mdatabase.child("user").child(uuid).child("userevent").child("status").setValue("Event sedang diproses");
         this.finish();
         startActivity(new Intent(buatevent.this, main.class));
     }

@@ -2,6 +2,7 @@ package com.skripsi.andra;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,25 +33,28 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class main<ImageAdapter> extends AppCompatActivity {
-    TextView tv;
+    TextView tv, tvnamae, tvlokasie, tvtamue, tvtanggale, tvjame, tvstatuse,textView24;
     ProgressDialog pd;
     String usernya, uuid;
     private FirebaseAuth mAuth;
-    private DatabaseReference mdatabase;
-    private Signin signin = new Signin();
-    private static final String TAG = "MainActivity";
-    RecyclerView recyclerView;
-    DatabaseReference databaseReference;
-    private Context mContext;
-    private Activity mActivity;
-    private ArrayList<Model> imagesList;
-    private holdereventuser imageAdapter = null;
+    private DatabaseReference mdatabase,databaseReference;
+    CardView cv;
+    Button button2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tv = findViewById(R.id.textView);
+        tvnamae = findViewById(R.id.tvnamae);
+        tvlokasie = findViewById(R.id.tvlokasie);
+        tvtamue = findViewById(R.id.tvtamue);
+        tvtanggale = findViewById(R.id.tvtanggale);
+        tvjame = findViewById(R.id.tvjame);
+        tvstatuse = findViewById(R.id.tvstatuse);
+        cv = findViewById(R.id.cv);
+        button2 = findViewById(R.id.button2);
+        textView24 = findViewById(R.id.textView24);
         pd = new ProgressDialog(main.this);
         pd.setMessage("Memeriksa Username ...");
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -57,35 +62,7 @@ public class main<ImageAdapter> extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         uuid = user.getUid();
-        mActivity = main.this;
-        mContext = getApplicationContext();
-        FirebaseApp.initializeApp(this);
-        recyclerView = findViewById(R.id.rview);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        recyclerView.setNestedScrollingEnabled(false);
-        imagesList = new ArrayList<>();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("user").child(uuid).child("userevent");
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                imagesList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Model imagemodel = dataSnapshot.getValue(Model.class);
-                    imagesList.add(imagemodel);
-                }
-                imageAdapter = new holdereventuser(mContext, mActivity, (ArrayList<Model>) imagesList);
-                recyclerView.setAdapter(imageAdapter);
-                imageAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(main.this, "Error:" + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+        cekdata();
         mdatabase = FirebaseDatabase.getInstance().getReference().child("user").child(uuid).child("username");
         mdatabase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -106,6 +83,56 @@ public class main<ImageAdapter> extends AppCompatActivity {
         this.finish();
         startActivity(new Intent(main.this, buatevent.class));
     }
+    private void cekdata() {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("user").child(uuid).child("userevent");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild("jenis")) {
+                    getdata();
+                    cv.setVisibility(View.VISIBLE);
+                    button2.setVisibility(View.INVISIBLE);
+                    textView24.setText("Event Anda Sedang Kami Kerjakan\nSilahkan Hubungi Admin Untuk Mengubah Event");
+                }else{
+                    textView24.setText("Anda Belum Mempunyai Event\nKlik Tombol Di Atas Untuk Membuat Event Anda");
+                    cv.setVisibility(View.INVISIBLE);
+                    button2.setVisibility(View.VISIBLE);
+                }
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+
+    private void getdata() {
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("user").child(uuid).child("userevent");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                pd.dismiss();
+                Model post = dataSnapshot.getValue(Model.class);
+                tvnamae.setText(post.getJenis());
+                tvlokasie.setText(post.getLokasi());
+                tvtamue.setText(post.getTamu());
+                tvtanggale.setText(post.getTanggal());
+                tvjame.setText(post.getJam());
+                tvstatuse.setText(post.getStatus());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    public void adm(View v) {
+        this.finish();
+        startActivity(new Intent(main.this, Admin.class));
+    }
 
 }

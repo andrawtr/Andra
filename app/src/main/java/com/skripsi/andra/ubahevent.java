@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -18,10 +22,11 @@ import java.util.Calendar;
 
 public class ubahevent extends AppCompatActivity {
     private int mYear, mMonth, mDay, mHour, mMinute;
-    TextView tvnamau, tvlokasiu, tvtamuu, tvtglu, tvjamu, tvtlpu, tvstatusu, tvnoevente, tvuuide, tvtglbaru, tvjambaru;
-    String jam, menit, namabaru, loksibaru, tamubaru, tanggalbaru,jambaru,nopebaru,statusbaru ;
-    EditText etnamabaru, ettempatbaru,ettamubaru,ettlpbaru,etstatusbaru;
+    TextView tvnamau, tvlokasiu, tvtamuu, tvtglu, tvjamu, tvtlpu, tvstatusu, tvuuide, tvtglbaru, tvjambaru;
+    String jam, menit,statusbaru,jenisnya,uuid;
+    EditText etnamabaru, ettempatbaru,ettamubaru,ettlpbaru;
     private DatabaseReference mdatabase;
+    Spinner jenis,etstatusbaru;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +44,6 @@ public class ubahevent extends AppCompatActivity {
         String tamu = getIntent().getStringExtra("tamu");
         String jam = getIntent().getStringExtra("jam");
         String status = getIntent().getStringExtra("status");
-        String noevent = getIntent().getStringExtra("noevent");
         String uuid = getIntent().getStringExtra("uuid");
         tvlokasiu = findViewById(R.id.tvlokasiu);
         tvtamuu = findViewById(R.id.tvtamuu);
@@ -47,7 +51,6 @@ public class ubahevent extends AppCompatActivity {
         tvjamu = findViewById(R.id.tvjamu);
         tvtlpu = findViewById(R.id.tvtlpu);
         tvstatusu = findViewById(R.id.tvstatusu);
-        tvnoevente = findViewById(R.id.tvnoevente);
         tvuuide = findViewById(R.id.tvuuide);
         tvtglbaru = findViewById(R.id.tvtglbaru);
         tvjambaru = findViewById(R.id.tvjambaru);
@@ -59,14 +62,49 @@ public class ubahevent extends AppCompatActivity {
         tvjamu.setText(jam);
         tvtlpu.setText(nope);
         tvstatusu.setText(status);
-        tvnoevente.setText(noevent);
         tvuuide.setText(uuid);
-        etnamabaru = findViewById(R.id.etnamabaru);
+        jenis = findViewById(R.id.etnamabaru);
         ettempatbaru = findViewById(R.id.ettempatbaru);
         ettamubaru = findViewById(R.id.ettamubaru);
         ettlpbaru =findViewById(R.id.ettlpbaru);
         etstatusbaru = findViewById(R.id.etstatusbaru);
+        ettempatbaru.setText(lokasi);
+        ettamubaru.setText(tamu);
+        tvtglbaru.setText(tanggal);
+        tvjambaru.setText(jam);
+        ettlpbaru.setText(nope);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.Jenis_Event, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jenis.setAdapter(adapter);
+        jenis.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                jenisnya = jenis.getSelectedItem().toString();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
+                R.array.status_Event, android.R.layout.simple_spinner_item);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        etstatusbaru.setAdapter(adapter2);
+        etstatusbaru.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+                statusbaru = etstatusbaru.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     public void dp(View v) {
@@ -105,21 +143,27 @@ public class ubahevent extends AppCompatActivity {
                 }, mHour, mMinute, true);
         timePickerDialog.show();
     }
-    public void getstatus(){
-        if(etstatusbaru.getText().toString().length()>1){
-            statusbaru = etstatusbaru.getText().toString();
-        }else{
-            statusbaru = tvstatusu.getText().toString();
-        }
-    }
+
     public void update(View v){
-        getstatus();
         mdatabase = FirebaseDatabase.getInstance().getReference();
-        mdatabase.child("user").child(tvuuide.getText().toString()).child("userevent").child(tvnoevente.getText().toString()).child("status").setValue(statusbaru);
-        mdatabase.child("Event").child(tvnoevente.getText().toString()).child("status").setValue(statusbaru);
+        uuid = tvuuide.getText().toString();
+        mdatabase.child("Event").child(uuid).setValue(uuid);
+        mdatabase.child("Event").child(uuid).child("uuid").setValue(uuid);
+        mdatabase.child("Event").child(uuid).child("nope").setValue(ettlpbaru.getText().toString());
+        mdatabase.child("Event").child(uuid).child("jenis").setValue(jenisnya);
+        mdatabase.child("Event").child(uuid).child("lokasi").setValue(ettempatbaru.getText().toString());
+        mdatabase.child("Event").child(uuid).child("tamu").setValue(ettamubaru.getText().toString());
+        mdatabase.child("Event").child(uuid).child("tanggal").setValue(tvtglbaru.getText().toString());
+        mdatabase.child("Event").child(uuid).child("jam").setValue(tvjambaru.getText().toString());
+        mdatabase.child("Event").child(uuid).child("status").setValue(statusbaru);
+        mdatabase.child("user").child(uuid).child("userevent").child("jenis").setValue(jenisnya);
+        mdatabase.child("user").child(uuid).child("userevent").child("lokasi").setValue(ettempatbaru.getText().toString());
+        mdatabase.child("user").child(uuid).child("userevent").child("tamu").setValue(ettamubaru.getText().toString());
+        mdatabase.child("user").child(uuid).child("userevent").child("tanggal").setValue(tvtglbaru.getText().toString());
+        mdatabase.child("user").child(uuid).child("userevent").child("jam").setValue(tvjambaru.getText().toString());
+        mdatabase.child("user").child(uuid).child("userevent").child("status").setValue(statusbaru);
         ubahevent.this.finish();
+        startActivity(new Intent(ubahevent.this, Admin.class));
     }
-
-
 
 }

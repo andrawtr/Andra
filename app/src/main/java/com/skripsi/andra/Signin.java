@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,9 +30,8 @@ public class Signin extends AppCompatActivity {
     String buatcekemail;
     boolean bolmail, bolpass;
     ProgressDialog pd;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mdatabase;
-    private String username;
+    public FirebaseAuth mAuth;
+    TextView tv;
 
 
     @Override
@@ -42,6 +42,8 @@ public class Signin extends AppCompatActivity {
         checkBox2 = findViewById(R.id.checkBox2);
         etpass = findViewById(R.id.etplogin);
         etmaill = findViewById(R.id.etmaill);
+        tv = findViewById(R.id.textView35);
+        tv.setVisibility(View.GONE);
         buatcekemail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         checkBox2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -69,7 +71,7 @@ public class Signin extends AppCompatActivity {
         }
     }
 
-    private void cekemail() {
+    public void cekemail() {
         String hmail = cekvalid.valemail(etmaill.getText().toString());
         Log.d("TAG", "cekemail: "+hmail);
         if(hmail.equals("true")){
@@ -79,16 +81,17 @@ public class Signin extends AppCompatActivity {
         }
     }
 
-    private void cekpass() {
+    public void cekpass() {
         String hpass = cekvalid.valpass(etpass.getText().toString());
         if (hpass.equals("true")) {
             bolpass = true;
         } else {
             etpass.setError(hpass);
+            tv.setVisibility(View.VISIBLE);
         }
     }
 
-    private void prosessignin() {
+    public void prosessignin() {
         mAuth.signInWithEmailAndPassword(etmaill.getText().toString(), etpass.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -107,6 +110,7 @@ public class Signin extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             pd.dismiss();
+                            tv.setVisibility(View.VISIBLE);
                             new AlertDialog.Builder(Signin.this)
                                     .setIcon(android.R.drawable.ic_dialog_alert)
                                     .setCancelable(false)
@@ -124,5 +128,10 @@ public class Signin extends AppCompatActivity {
                         // ...
                     }
                 });
+    }
+
+    public void lupapass(View v) {
+        startActivity(new Intent(Signin.this, lupapass.class));
+        Signin.this.finish();
     }
 }

@@ -25,14 +25,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class signup extends AppCompatActivity {
+
     EditText etnama,etmail,etpass,etphone;
 
     String buatcekemail;
     CheckBox checkBox;
     boolean bolmail,bolnama,bolpass, bolhp;
     ProgressDialog pd;
-    private FirebaseAuth mAuth;
+    public FirebaseAuth mAuth;
     private DatabaseReference mdatabase;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +62,7 @@ public class signup extends AppCompatActivity {
         });
         ceklogin();
     }
-    private void ceklogin(){
+    public void ceklogin(){
         pd = new ProgressDialog(signup.this);
         pd.setMessage("Memeriksa User ...");
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -88,7 +92,7 @@ public class signup extends AppCompatActivity {
             pd.setMessage("Mendaftarkan ...");
             pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             pd.show();
-            signup();
+            signup(etmail.getText().toString(), etpass.getText().toString());
         } else {
             Log.d("Lognya","masih ada error");
         }
@@ -128,9 +132,8 @@ public class signup extends AppCompatActivity {
             bolhp = true;
         }
     }
-    private void signup() {
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.createUserWithEmailAndPassword(etmail.getText().toString(), etpass.getText().toString())
+    public void signup(String em, String ps) {
+        mAuth.createUserWithEmailAndPassword(em,ps)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -163,9 +166,7 @@ public class signup extends AppCompatActivity {
         startActivity(new Intent(signup.this, Signin.class));
         signup.this.finish();
     }
-    public void lupapass(View v) {
-        startActivity(new Intent(signup.this, lupapass.class));
-        signup.this.finish();
-    }
+
+
 
 }
