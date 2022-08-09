@@ -155,7 +155,6 @@ public class ubahevent extends AppCompatActivity {
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         pd.show();
         mdatabase = FirebaseDatabase.getInstance().getReference();
-        mdatabase = FirebaseDatabase.getInstance().getReference();
         uuid = tvuuide.getText().toString();
         mdatabase.child("Event").child(uuid).setValue(uuid);
         mdatabase.child("Event").child(uuid).child("uuid").setValue(uuid);

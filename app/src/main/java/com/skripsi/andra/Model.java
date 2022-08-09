@@ -9,7 +9,8 @@ public class Model {
     public String status;
     public String uuid;
     public String nope;
-    public Model(){
+
+    public Model() {
 
     }
 

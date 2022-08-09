@@ -1,27 +1,16 @@
 package com.skripsi.andra;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -30,14 +19,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
-public class main<ImageAdapter> extends AppCompatActivity {
-    TextView tv, tvnamae, tvlokasie, tvtamue, tvtanggale, tvjame, tvstatuse,textView24;
+public class main extends AppCompatActivity {
+    TextView tv, tvnamae, tvlokasie, tvtamue, tvtanggale, tvjame, tvstatuse, textView24;
     ProgressDialog pd;
     String usernya, uuid;
     private FirebaseAuth mAuth;
-    private DatabaseReference mdatabase,databaseReference;
+    private DatabaseReference mdatabase, databaseReference;
     CardView cv;
     Button button2;
 
@@ -83,7 +70,8 @@ public class main<ImageAdapter> extends AppCompatActivity {
         this.finish();
         startActivity(new Intent(main.this, buatevent.class));
     }
-    private void cekdata() {
+
+    public void cekdata() {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("user").child(uuid).child("userevent");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -93,7 +81,7 @@ public class main<ImageAdapter> extends AppCompatActivity {
                     cv.setVisibility(View.VISIBLE);
                     button2.setVisibility(View.INVISIBLE);
                     textView24.setText("Event Anda Sedang Kami Kerjakan\nSilahkan Hubungi Admin Untuk Mengubah Event");
-                }else{
+                } else {
                     textView24.setText("Anda Belum Mempunyai Event\nKlik Tombol Di Atas Untuk Membuat Event Anda");
                     cv.setVisibility(View.GONE);
                     button2.setVisibility(View.VISIBLE);
@@ -109,7 +97,7 @@ public class main<ImageAdapter> extends AppCompatActivity {
     }
 
 
-    private void getdata() {
+    public void getdata() {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("user").child(uuid).child("userevent");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
