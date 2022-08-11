@@ -3,13 +3,10 @@ package com.skripsi.andra;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,9 +16,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,7 +33,7 @@ public class buatevent extends AppCompatActivity {
     TextView tvtanggal, tvjam, tvnope;
     String jam, menit, uuid, jenisnya;
     EditText lokasi, tamu;
-    Boolean bjenis, blokasi, btamu, btanggal, bjam;
+    Boolean bjenis, blokasinya, btamunya, btanggal, bjam;
     Spinner jenis;
     int no;
 
@@ -48,6 +42,7 @@ public class buatevent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buatevent);
         mAuth = FirebaseAuth.getInstance();
+
         Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
@@ -61,8 +56,8 @@ public class buatevent extends AppCompatActivity {
         tamu = findViewById(R.id.jumlahtamu);
         tvnope = findViewById(R.id.tvnopeb);
         bjenis = false;
-        blokasi = false;
-        btamu = false;
+        blokasinya = false;
+        btamunya = false;
         btanggal = false;
         bjam = false;
         FirebaseUser user = mAuth.getCurrentUser();
@@ -100,7 +95,7 @@ public class buatevent extends AppCompatActivity {
         cektamu();
         cektanggal();
         cekjam();
-        if(blokasi && btamu && btanggal && bjam){
+        if(blokasinya && btamunya && btanggal && bjam){
             prosesevent();
         }
 
@@ -147,7 +142,7 @@ public class buatevent extends AppCompatActivity {
         if (lokasi.getText().toString().length() < 1) {
             lokasi.setError("Lokasi Event Harus Diisi");
         } else {
-            blokasi = true;
+            blokasinya = true;
         }
     }
 
@@ -155,7 +150,7 @@ public class buatevent extends AppCompatActivity {
         if (tamu.getText().toString().length() < 1) {
             tamu.setError("Tamu Event Harus Diisi");
         } else {
-            btamu = true;
+            btamunya = true;
         }
     }
 
